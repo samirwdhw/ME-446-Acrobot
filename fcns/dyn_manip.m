@@ -17,3 +17,4 @@ ddq = De \ (Be * u - Ce * dq - Ge);
 % ddq = De \ (Be * u + J' * F_ext - Ce*dq - Ge);
 
 dXdt = [dq;ddq];
+
