@@ -6,7 +6,9 @@ f = figure;
 % set(f, 'doublebuffer', 'on');
 
 N = p.N_animate;
-[t,X] = even_sample(tin,Xin,N);
+
+%[t,X] = even_sample(tin,Xin,N);
+t = tin; X = Xin;
 
 chain = zeros(3,3);
 

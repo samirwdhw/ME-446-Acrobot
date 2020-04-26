@@ -5,7 +5,9 @@ function [c,ceq] = dyn_constraint(x,p,nVar, N,dt)
 params = p.params;
 c = [];
 
-ceq = zeros(5*(N-1), 1);
+ceq = zeros(4*(N-1), 1);
+
+%disp(x);
 
 for i = 1:N-1
     
@@ -31,6 +33,10 @@ for i = 1:N-1
     ceq(5*(i-1)+4) = dynamics(4);
 
 end
+
+%disp(x_k);
+%disp(x_kp1);
+%disp(u);
 
 end
 

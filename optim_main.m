@@ -4,6 +4,8 @@ addpath fcns
 addpath gen
 addpath optim_fcns
 
+clear
+
 p = get_params;
 
 % Initial State
@@ -12,10 +14,10 @@ u0 = 0;
 % Decision Variables
 nX = 4;
 nU = 1;
-N = 100;
+N = 250;
 tf = 5;
 dt = tf/N;
-time = linspace(0,tf,N);
+t_des = linspace(0,tf,N);
 
 % Number of decision variables
 nLamb = (nX + nU)*N;
@@ -32,7 +34,7 @@ Aeq2(1,(nX+nU)*(N-1)+1) = 1;
 Aeq2(2,(nX+nU)*(N-1)+2) = 1;
 Aeq2(3,(nX+nU)*(N-1)+3) = 1;
 Aeq2(4,(nX+nU)*(N-1)+4) = 1;
-beq2 = [0;0;0;0];
+beq2 = [pi/2;0;0;0];
 
 Aeq = [Aeq1; Aeq2(1:2,:)];
 beq = [beq1; beq2(1:2)];
@@ -47,4 +49,10 @@ options = optimoptions('fmincon',...
 sol = fmincon(@(x)fcn_cost(x,nVar,N,dt), sol0, [],[],Aeq,beq,...
 [],[],@(x)dyn_constraint(x,p,nVar, N,dt),options);
 
-[x,u_des] = get_optimal_vals(sol, N, nVar);
+[x_des,u_des] = get_optimal_vals(sol, N, nVar);
+
+%% 
+animateRobot(t_des, x_des, p);
+
+%%
+save('optim_vars', 'x_des', 'u_des', 't_des');

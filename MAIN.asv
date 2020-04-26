@@ -13,13 +13,10 @@ fprintf('Initializing ..............\n')
 p = get_params;     % Getting physical parameters of the robot
 
 % Variables to study
-global t_meas u_meas counter
-t_meas = zeros(1,1000);
-u_meas = zeros(1,1000);
-counter = 1;
+gl
 
 % Initial condition
-q0 = [-pi/2; 0]; %Joint angles
+q0 = [0; 0]; %Joint angles
 dq0 = [0; 0];       %Joint velocities
 ic = [q0; dq0];
 
@@ -28,7 +25,7 @@ ic = [q0; dq0];
 % Recording
 tstart = 0;
 %tfinal = 2*Nstep;   %Maximum simulation time
-tfinal = 5;
+tfinal = 2;
 tout = tstart;
 Xout = ic';
 
@@ -36,10 +33,9 @@ load('optim_vars.mat')
 
 [tout,Xout] = ode45(@(t,X)dyn_manip(t,X,p,t_des,u_des),[tstart, tfinal], Xout(end,:));
 
-u_meas = u_meas(1,1:counter-1);
-t_meas = t_meas(1,1:counter-1);
-
 fprintf('Simulation Complete!\n')
+
+[~,u] = dyn_manip(tout,Xout,p,t_des,u_des);
 
 % Back calculating u
 
@@ -49,8 +45,8 @@ t = animateRobot(tout,Xout,p);
 %% Comparing Calculated and Actual Parameters
 
 figure 
-plot(t_des, u_des); hold on;
-plot(t_meas, u_meas);
+plot(t_des, u); hold on;
+plot(times, u_meas);
 title('Control Comparison');
 
 figure 

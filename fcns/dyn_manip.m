@@ -1,4 +1,4 @@
-function dXdt = dyn_manip(t,X,p)
+function [dXdt, u] = dyn_manip(t,X,p, t_des, u_des)
 
 params = p.params;
 
@@ -11,7 +11,14 @@ Ge = fcn_Ge(q,params);
 Be = fcn_Be(q,params);
 
 % Design your controller here
-u = 0;
+u = fcn_controller(t,t_des,u_des);
+
+% Setting the measured variables
+global t_meas u_meas counter
+t_meas(counter) = t;
+u_meas(counter) = u;
+counter = counter + 1;
+
 
 ddq = De \ (Be * u - Ce * dq - Ge);
 % ddq = De \ (Be * u + J' * F_ext - Ce*dq - Ge);

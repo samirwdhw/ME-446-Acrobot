@@ -3,10 +3,8 @@ function val = fcn_cost(x,nVar,N,dt)
 
 val = 0;
 
-for i = 1:N
-    
-    val = val + x(nVar*(i-1)+5)^2*dt;
-    
-end
+u = x(5:5:end);
+
+val = norm(u)^2*dt;
 
 
