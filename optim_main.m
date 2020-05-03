@@ -18,7 +18,7 @@ xf = [pi/2;0;0;0];
 % Decision Variables
 nX = 4;
 nU = 1;
-N = 10;
+N = 50;
 tf = 2;
 dt = tf/N;
 t_des = linspace(0,tf,N);
@@ -43,7 +43,7 @@ beq = [beq1; beq2];
 
 %% Optimization
 
-sol0 = zeros(nLamb,1);
+sol0 = get_initial_guess(x0,xf,N);
 
 options = optimoptions('fmincon',...
 'Display','iter','Algorithm','interior-point', ...
