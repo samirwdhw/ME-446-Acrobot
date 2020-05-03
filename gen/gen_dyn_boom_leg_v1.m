@@ -12,6 +12,7 @@ syms rx1 ry1 rz1 rx2 ry2 rz2 real
 syms Jxx1 Jyy1 Jzz1 Jxy1 Jxz1 Jyz1 real
 syms Jxx2 Jyy2 Jzz2 Jxy2 Jxz2 Jyz2 real
 syms g real
+syms u
 
 %% --- variable lists ---
 % Physical parameters of the robot
@@ -63,6 +64,10 @@ m_list_q = {
 m_list_dq = {
     'dq1' 'dq(1)';
     'dq2' 'dq(2)';};
+
+% control input
+m_list_u = {
+    'u' 'u';};
 
 %% --- variables ---
 q = [q1 q2]';
@@ -149,8 +154,13 @@ write_fcn_m('fcn_Ge.m',{'q', 'p'},[m_list_q;m_list_params],{Ge,'Ge'});
 write_fcn_m('fcn_Be.m',{'q', 'p'},[m_list_q;m_list_params],{Be,'Be'});
 
 
+%% --- Linearized Matrices ---
 
+dynamics = simplify([dq(1); dq(2); De\(Be*u - Ce*dq - Ge)]);
 
+Alin = simplify(jacobian(dynamics, [q;dq]));
+Blin = simplify(jacobian(dynamics, u));
 
-
+write_fcn_m('fcn_Alin.m',{'q', 'dq', 'p', 'u'},[m_list_q;m_list_dq;m_list_params;m_list_u],{Alin,'Alin'});
+write_fcn_m('fcn_Blin.m',{'q', 'dq', 'p'},[m_list_q;m_list_dq;m_list_params],{Blin,'Blin'});
 

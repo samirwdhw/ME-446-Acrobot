@@ -5,6 +5,7 @@ close all
 
 addpath gen
 addpath fcns
+addpath optim_fcns
 
 fprintf('------ ME446 Milestone 5 -------\n')
 fprintf('Initializing ..............\n')
@@ -34,7 +35,8 @@ Xout = ic';
 
 load('optim_vars.mat')
 
-[tout,Xout] = ode45(@(t,X)dyn_manip(t,X,p,t_des,u_des),[tstart, tfinal], Xout(end,:));
+[tout,Xout] = ode113(@(t,X)dyn_manip(t,X,p,t_des,u_des, x_des),...
+    [tstart, tfinal], Xout(end,:));
 
 u_meas = u_meas(1,1:counter-1);
 t_meas = t_meas(1,1:counter-1);

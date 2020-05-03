@@ -24,7 +24,7 @@ for i = 1:N
     q_kp1 = x_kp1(1:2);
     dq_kp1 = x_kp1(3:4);
     
-    % Definining system dynamics at the collocation points
+    % Definining system dynamics at the colloc
     De_k = fcn_De(q_k,params);
     Ce_k = fcn_Ce(q_k,dq_k,params);
     Ge_k = fcn_Ge(q_k,params);
@@ -38,7 +38,6 @@ for i = 1:N
     
     f_kp1 = [dq_kp1; De_kp1\(Be*u_kp1 - Ce_kp1*dq_kp1 - Ge_kp1)];
     
-    % Writing the required nonlinear equality constraints
     ceq(4*(i-1)+1:4*i) = x_kp1 - x_k - dt/2*(f_k + f_kp1);
     
 end

@@ -18,7 +18,7 @@ xf = [pi/2;0;0;0];
 % Decision Variables
 nX = 4;
 nU = 1;
-N = 10;
+N = 100;
 tf = 2;
 dt = tf/N;
 t_des = linspace(0,tf,N);
@@ -68,20 +68,14 @@ title('\theta_1 dynamics error');
 xlabel('Time (s)');
 ylabel('Error');
 subplot(2,2,2);
-plot(t_sample, error(2,:));
-title('\theta_2 dynamics error');
+title('\theta_1 dynamics error');
 xlabel('Time (s)');
 ylabel('Error');
+plot(t_sample, error(2,:));
 subplot(2,2,3);
 plot(t_sample, error(3,:));
-title('\omega_1 dynamics error');
-xlabel('Time (s)');
-ylabel('Error');
 subplot(2,2,4);
 plot(t_sample, error(4,:));
-title('\omega_1 dynamics error');
-xlabel('Time (s)');
-ylabel('Error');
 
 %% Animation of this system 
 animateRobot(t_des, x_des, p);
