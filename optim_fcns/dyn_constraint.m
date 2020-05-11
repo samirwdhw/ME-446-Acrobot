@@ -1,11 +1,12 @@
-function [c,ceq] = dyn_constraint(x,p,nVar, N,dt)
-%This function specifies the dynamics as nonlinear constraints in 
-%discrete time
+function [c,ceq] = dyn_constraint(sol,p,nVar, N,dt, xb, yb)
+% This function specifies the dynamics as nonlinear constraints in 
+% discrete time and the final constraint to ensure that the mass falls 
+% in the bucket
 
 params = p.params;
-c = [];
+c = zeros(1);
 
-ceq = zeros(4*N, 1);
+ceq = zeros(4*N+1, 1);
 
 %disp(x);
 
@@ -13,11 +14,11 @@ for i = 1:N
     
     % Collecting the states for system dynamics constraints from 
     % collocation point k to k+1
-    x_k = x(nVar*(i-1)+1:nVar*(i-1)+4);
-    u_k = x(nVar*(i-1)+5);
+    x_k = sol(nVar*(i-1)+1:nVar*(i-1)+4);
+    u_k = sol(nVar*(i-1)+5);
     
-    x_kp1 = x(nVar*i+1:nVar*i+4);
-    u_kp1 = x(nVar*i+5);
+    x_kp1 = sol(nVar*i+1:nVar*i+4);
+    u_kp1 = sol(nVar*i+5);
 
     q_k = x_k(1:2); 
     dq_k = x_k(3:4);
@@ -42,6 +43,25 @@ for i = 1:N
     ceq(4*(i-1)+1:4*i) = x_kp1 - x_k - dt/2*(f_k + f_kp1);
     
 end
+
+% Constraint to ensure ball falls into bucket
+% Location of the ball in state space
+qf = sol(end-4:end-3);
+dqf = sol(end-2:end-1);
+
+pos0 = fcn_p2(qf,params);
+vel0 = fcn_J_foot(qf,params)*dqf;
+
+x0 = pos0(1); y0 = pos0(2);
+vx0 = vel0(1); vy0 = vel0(2);
+
+te = (xb - x0)/vx0;
+
+c = -vx0;
+
+g = 9.81;
+
+ceq(end) = yb - vy0*te + g*te^2/2 - y0;
 
 %disp(x_k);
 %disp(x_kp1);

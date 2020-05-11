@@ -35,7 +35,7 @@ Xout = ic';
 
 load('optim_vars.mat')
 
-[tout,Xout] = ode113(@(t,X)dyn_manip(t,X,p,t_des,u_des, x_des),...
+[tout,Xout] = ode45(@(t,X)dyn_manip(t,X,p,t_des,u_des, x_des),...
     [tstart, tfinal], Xout(end,:));
 
 u_meas = u_meas(1,1:counter-1);
