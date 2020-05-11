@@ -105,7 +105,7 @@ xlabel('Time (s)');
 ylabel('Error');
 
 %% Animation of this system 
-animateRobot(t_des, x_des, ball_t, ball_X, xb, yb, p);
+animateRobotOptim(t_des, x_des, ball_t, ball_X, xb, yb, p);
 
 %%
 save('optim_vars', 'x_des', 'u_des', 't_des');

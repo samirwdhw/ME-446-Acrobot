@@ -11,18 +11,9 @@ Ge = fcn_Ge(q,params);
 Be = fcn_Be(q,params);
 
 % Design your controller here
-u = fcn_controller(t, X, params, t_des,u_des, x_des);
-
-% Setting the measured variables
-global t_meas u_meas counter
-t_meas(counter) = t;
-u_meas(counter) = u;
-counter = counter + 1;
-
+u = fcn_controller(t, X, p, t_des,u_des, x_des);
 
 ddq = De \ (Be * u - Ce * dq - Ge);
 % ddq = De \ (Be * u + J' * F_ext - Ce*dq - Ge);
 
 dXdt = [dq;ddq];
-
-disp(t);
