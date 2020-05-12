@@ -2,6 +2,11 @@ function u = fcn_controller(t, X, p, t_opt,u_opt, x_opt)
 % The function returns the control input required for the current time t
 % using the ouputs of the optimization problem u_des and t_des
 
+if t > t_opt(end)
+    u = 0;
+    return
+end
+
 u_des = u_interpol(t, t_opt, u_opt);
 X_des = x_interpol(t, t_opt, x_opt, u_opt, p);
 
