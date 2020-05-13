@@ -26,22 +26,27 @@ load('optim_vars.mat');
 % Recording
 tstart = 0;
 %tfinal = 2*Nstep;   %Maximum simulation time
-tfinal = t_des(end);
-tspan = [tstart:0.01:tfinal];
+tfinal = t_opt(end)+10;
+% Simualtion step size 
+% ode45 still uses a variable time solver but this ensures it returns the 
+% values at the required times
+dt = 0.05;
 tout = tstart;
 Xout = ic';
 
-[tout,Xout] = ode45(@(t,X)dyn_manip(t,X,p,t_des,u_des, x_des),...
-    [tstart, tfinal], Xout(end,:));
+[tout,Xout] = ode45(@(t,X)dyn_manip(t,X,p,t_opt,u_opt, x_opt),...
+    [tstart:dt:tfinal], Xout(end,:));
 
 fprintf('Simulation Complete!\n')
 
 % Back calculating u
-u = backCalculate(tout, Xout, p, t_des, u_des, x_des);
+u = backCalculate(tout, Xout, p, t_opt, u_opt, x_opt);
 
 %% Simulation for the mass at end
 
-xf = Xout(,:)';
+disp('Ball Simulation Started ..............');
+
+xf = Xout(floor(t_opt(end)/dt)+1,:)';
 qf = xf(1:2);
 dqf = xf(3:4);
 J = fcn_J_foot(qf,p.params); J = J(1:2,1:2);
@@ -51,27 +56,30 @@ ball_v0 = J*dqf;
 
 ball_x0 = [ball_pos0;ball_v0];
 
-[ball_t, ball_X] = ode45(@(t,X)dyn_ball(t,X),[t_des(end) t_des(end)+10], ball_x0);
+[ball_t, ball_X] = ode45(@(t,X)dyn_ball(t,X),[t_opt(end):dt:t_opt(end)+10], ball_x0);
 
+disp('Ball Simulation Complete!');
 
 %% Visualing the motion
-t = animateRobot(tout,Xout,p);
+animateRobot(tout,Xout,ball_t, ball_X, xb, yb, p, t_des);
 
 %% Comparing Calculated and Actual Parameters
 
+index_throw = find(tout == t_opt(end));
+
 figure 
-plot(t_des, u_des); hold on;
-plot(tout, u);
+plot(t_opt, u_opt); hold on;
+plot(tout(1:index_throw), u(1:index_throw));
 title('Control Comparison');
 
 figure 
-plot(t_des, x_des(:,1)); hold on;
-plot(tout, Xout(:,1));
-title('Theta 1 Comparison');
+plot(t_opt, x_opt(:,1)); hold on;
+plot(tout(1:index_throw), Xout(1:index_throw,1));
+title('\theta_1 Comparison');
 
 figure
-plot(t_des, x_des(:,2)); hold on;
-plot(tout, Xout(:,2));
-title('Theta 2 Comparison');
+plot(t_opt, x_des(:,2)); hold on;
+plot(tout(1:index_throw), Xout(1:index_throw,2));
+title('\theta_2 Comparison');
 
 

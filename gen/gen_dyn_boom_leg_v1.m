@@ -11,6 +11,7 @@ syms M1 M2 real
 syms rx1 ry1 rz1 rx2 ry2 rz2 real
 syms Jxx1 Jyy1 Jzz1 Jxy1 Jxz1 Jyz1 real
 syms Jxx2 Jyy2 Jzz2 Jxy2 Jxz2 Jyz2 real
+syms NH Kv Kt Rw Irotor real
 syms g real
 syms u
 
@@ -45,7 +46,14 @@ m_list_params = {
     'Jzz2' 'p(20)';
     'Jxy2' 'p(21)';
     'Jxz2' 'p(22)';
-    'Jyz2' 'p(23)';};
+    'Jyz2' 'p(23)';
+    
+    'NH'        'p(24)';
+    'Kv'        'p(25)';
+    'Kt'        'p(26)';
+    'Rw'        'p(27)';
+    'Irotor'    'p(28)';
+    };
 
 J1 = [Jxx1 Jxy1 Jxz1;
       Jxy1 Jyy1 Jyz1;
@@ -147,6 +155,12 @@ Upsilon = [q2]; %where control torques go: hip and knee only, first two joints a
 
 %% --- Euler-Lagrange Equation ---
 [De, Ce, Ge, Be] = std_dynamics(KE,PE,q,dq, Upsilon);
+
+Jrotor = diag([0, Irotor*NH^2]);
+Bdamp = diag([0,Kv*Kt*NH^2/Rw]);
+
+De = De + Jrotor;
+Ce = Ce + Bdamp;
 
 write_fcn_m('fcn_De.m',{'q', 'p'},[m_list_q;m_list_params],{De,'De'});
 write_fcn_m('fcn_Ce.m',{'q', 'dq', 'p'},[m_list_q;m_list_dq;m_list_params],{Ce,'Ce'});

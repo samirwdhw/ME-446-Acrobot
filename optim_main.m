@@ -25,7 +25,7 @@ nU = 1;
 N = 50;
 tf = 2;
 dt = tf/N;
-t_des = linspace(0,tf,N+1);
+t_opt = linspace(0,tf,N+1);
 
 % Number of decision variables
 nLamb = (nX + nU)*(N+1);
@@ -60,11 +60,11 @@ options = optimoptions('fmincon',...
 sol = fmincon(@(x)fcn_cost(x,N,dt), sol0, [],[],Aeq,beq,...
 [],[],@(x)dyn_constraint(x,p,nVar, N,dt, xb, yb),options);
 
-[x_des,u_des] = get_optimal_vals(sol, N, nVar);
+[x_opt,u_opt] = get_optimal_vals(sol, N, nVar);
 
 %% Simulation for the mass at end
 
-xf = x_des(end,:)';
+xf = x_opt(end,:)';
 qf = xf(1:2);
 dqf = xf(3:4);
 J = fcn_J_foot(qf,p.params); J = J(1:2,1:2);
@@ -74,13 +74,13 @@ ball_v0 = J*dqf;
 
 ball_x0 = [ball_pos0;ball_v0];
 
-[ball_t, ball_X] = ode45(@(t,X)dyn_ball(t,X),[t_des(end) t_des(end)+10], ball_x0);
+[ball_t, ball_X] = ode45(@(t,X)dyn_ball(t,X),[t_opt(end) t_opt(end)+10], ball_x0);
 
 %% Plotting errors in this solution
 
 t_sample = linspace(0,tf,(N+1)*100);
 
-error = get_estimation_error(t_sample, t_des, u_des, x_des, p);
+error = get_estimation_error(t_sample, t_opt, u_opt, x_opt, p);
 
 figure
 subplot(2,2,1);
@@ -105,7 +105,7 @@ xlabel('Time (s)');
 ylabel('Error');
 
 %% Animation of this system 
-animateRobotOptim(t_des, x_des, ball_t, ball_X, xb, yb, p);
+animateRobotOptim(t_opt, x_opt, ball_t, ball_X, xb, yb, p);
 
 %%
-save('optim_vars', 'x_des', 'u_des', 't_des', 'xb', 'yb');
+save('optim_vars', 'x_opt', 'u_opt', 't_opt', 'xb', 'yb');
