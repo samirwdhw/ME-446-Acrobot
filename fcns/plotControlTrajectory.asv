@@ -1,0 +1,13 @@
+function plotControlTrajectory(Xout,uout, p)
+% This function plots the motor operating region and the trajectory 
+% taken by the bot to confirm that it stays in the operating region
+
+% Motor paramet
+NH = p.params(24);
+Tstall = p.params(29);
+w_NL = p.params(30);
+Tlmax = p.params(31);
+
+
+end
+

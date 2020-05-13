@@ -82,4 +82,4 @@ plot(t_opt, x_opt(:,2)); hold on;
 plot(tout(1:index_throw), Xout(1:index_throw,2));
 title('\theta_2 Comparison');
 
-
+plotControlTrajectory(Xout(1:index_throw, :), u(1:index_throw), p);

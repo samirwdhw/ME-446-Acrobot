@@ -43,7 +43,7 @@ beq = beq1;
 % Motor Constraints are written as linear inequality constraints in terms
 % of the decision variables
 NH = p.params(24);
-Tstall = p.params(29);
+Tstall = p.params(29)*0.9;
 w_NL = p.params(30);
 Tlmax = p.params(31);
 
