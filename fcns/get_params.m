@@ -52,11 +52,16 @@ Kt = 0.0135;
 Rw = 1.3;
 Irotor = 7e-6;
 
+Tstall = 0.124;
+w_NL = 645.2;
+Tlmax = 0.162;
+
 p.params = [g, L1, L2, M1, M2, ...
     rx1, ry1, rz1, rx2, ry2, rz2, ...
     Jxx1, Jyy1, Jzz1, Jxy1, Jxz1, Jyz1,...
     Jxx2, Jyy2, Jzz2, Jxy2, Jxz2, Jyz2, ...
-    NH, Kv, Kt, Rw, Irotor];
+    NH, Kv, Kt, Rw, Irotor, ...
+    Tstall, w_NL, Tlmax];
     
     
     

@@ -4,12 +4,10 @@ function [c,ceq] = dyn_constraint(sol,p,nVar, N,dt, xb, yb)
 % in the bucket
 
 params = p.params;
+c = zeros(1);
 
-c = [];
-
-% Number of nonlinear  equality constraints is 
-% dynamic const.(4*(time steps -1)) + end point constraint (1)                                   + 
-ceq = zeros(4*N+1, 1);
+% Number of
+ceq = zeros(4*N+1 + 4*(N+1), 1);
 
 %disp(x);
 

@@ -40,39 +40,21 @@ beq1 = [x0;0];
 Aeq = Aeq1;
 beq = beq1;
 
-% Motor Constraints are written as linear inequality constraints in terms
-% of the decision variables
+% Motor Constraints
 NH = p.params(24);
-Tstall = p.params(29);
-w_NL = p.params(30);
-Tlmax = p.params(31);
-
-%Inequality constraints at one time step
-A = [0, 0, 0,  0,                1/NH;
-     0, 0, 0,  0,               -1/NH;
-     0, 0, 0,  Tstall/w_NL*NH,   1/NH;
-     0, 0, 0, -Tstall/w_NL*NH,  -1/NH];
-
-% Creating a block diagonal repeating matrix out of this 
-A = repmat(A, 1, N+1);
-A = mat2cell(A, size(A,1), repmat(nVar,1,N+1));
-A = blkdiag(A{:});
-
-b = [Tlmax; Tlmax; Tstall; Tstall];
-b = repmat(b, N+1,1);
+Tstall = p.pa
+A = [0 0 0 0 1/NH]
 
 %% Optimization
 
-%sol0 = get_initial_guess(x0,xf,N);
-load('prev_sol');
-sol0 = sol;
+sol0 = get_initial_guess(x0,xf,N);
 
 options = optimoptions('fmincon',...
 'Display','iter','Algorithm','interior-point', ...
 'MaxIter', 10000, 'MaxFunEvals', 100000,'ConstraintTolerance',1e-6, ...
 'OptimalityTolerance',1e-2);
 
-sol = fmincon(@(x)fcn_cost(x,N,dt), sol0, A, b,Aeq,beq,...
+sol = fmincon(@(x)fcn_cost(x,N,dt), sol0, [],[],Aeq,beq,...
 [],[],@(x)dyn_constraint(x,p,nVar, N,dt, xb, yb),options);
 
 [x_opt,u_opt] = get_optimal_vals(sol, N, nVar);
@@ -124,4 +106,3 @@ animateRobotOptim(t_opt, x_opt, ball_t, ball_X, xb, yb, p);
 
 %%
 save('optim_vars', 'x_opt', 'u_opt', 't_opt', 'xb', 'yb');
-%save('prev_sol', 'sol');
