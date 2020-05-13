@@ -27,9 +27,6 @@ Kv = params(25);
 Kt = params(26);
 Rw = params(27);
 
-IH = u/NH/Kt;
-VH = Rw*IH + Kv*dq(2)*NH;
+VH = 
 
-power = VH*IH;
-
-dXdt = [dq;ddq; power];
+dXdt = [dq;ddq];

@@ -32,10 +32,15 @@ tfinal = t_opt(end)+10;
 % values at the required times
 dt = 0.05;
 tout = tstart;
-Xout = ic';
+
+% The simulation also determines the energy consumed by the robot,
+% the last state is used to determine the total energy consumed
+Xout = [ic';0];
 
 [tout,Xout] = ode45(@(t,X)dyn_manip(t,X,p,t_opt,u_opt, x_opt),...
     [tstart:dt:tfinal], Xout(end,:));
+
+energy_consumed = Xout(
 
 fprintf('Simulation Complete!\n')
 
@@ -61,7 +66,7 @@ ball_x0 = [ball_pos0;ball_v0];
 disp('Ball Simulation Complete!');
 
 %% Visualing the motion
-animateRobot(tout,Xout,ball_t, ball_X, xb, yb, p, t_des);
+animateRobot(tout,Xout,ball_t, ball_X, xb, yb, p, t_opt);
 
 %% Comparing Calculated and Actual Parameters
 
@@ -78,8 +83,11 @@ plot(tout(1:index_throw), Xout(1:index_throw,1));
 title('\theta_1 Comparison');
 
 figure
-plot(t_opt, x_des(:,2)); hold on;
+plot(t_opt, x_opt(:,2)); hold on;
 plot(tout(1:index_throw), Xout(1:index_throw,2));
 title('\theta_2 Comparison');
 
+plotControlTrajectory(Xout(1:index_throw, :), u(1:index_throw), p);
+
+fprintf('Average Power Consumed is %.4f', powerConsumed(tout(1:index_throw), u(1:index_throw)));
 

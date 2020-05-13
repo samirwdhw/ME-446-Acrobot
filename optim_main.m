@@ -63,14 +63,21 @@ b = repmat(b, N+1,1);
 
 %% Optimization
 
-%sol0 = get_initial_guess(x0,xf,N);
-load('prev_sol');
-sol0 = sol;
+sol0 = get_initial_guess(x0,xf,N);
+%load('prev_sol');
+%sol0 = sol;
 
 options = optimoptions('fmincon',...
 'Display','iter','Algorithm','interior-point', ...
 'MaxIter', 10000, 'MaxFunEvals', 100000,'ConstraintTolerance',1e-6, ...
 'OptimalityTolerance',1e-2);
+
+fprintf('Starting Optimization to generate a good initial guess........\n');
+
+sol0 = fmincon(@(x)fcn_cost(x,N,dt), sol0, [], [],Aeq,beq,...
+[],[],@(x)dyn_constraint(x,p,nVar, N,dt, xb, yb),options);
+
+fprintf('Starting Optimization with actuator dynamics........... \n');
 
 sol = fmincon(@(x)fcn_cost(x,N,dt), sol0, A, b,Aeq,beq,...
 [],[],@(x)dyn_constraint(x,p,nVar, N,dt, xb, yb),options);

@@ -32,10 +32,17 @@ tfinal = t_opt(end)+10;
 % values at the required times
 dt = 0.05;
 tout = tstart;
-Xout = ic';
+
+% The simulation also determines the energy consumed by the robot,
+% the last state is used to determine the total energy consumed
+Xout = [ic',0];
 
 [tout,Xout] = ode45(@(t,X)dyn_manip(t,X,p,t_opt,u_opt, x_opt),...
     [tstart:dt:tfinal], Xout(end,:));
+
+energy_consumed = Xout(end,5);
+
+Xout = Xout(:, 1:4);
 
 fprintf('Simulation Complete!\n')
 
@@ -83,3 +90,7 @@ plot(tout(1:index_throw), Xout(1:index_throw,2));
 title('\theta_2 Comparison');
 
 plotControlTrajectory(Xout(1:index_throw, :), u(1:index_throw), p);
+
+fprintf('Average Power Consumed is %.4f W \n', energy_consumed/t_opt(end));
+fprintf('Total Energy Consumed is %.4f J \n', energy_consumed);
+
