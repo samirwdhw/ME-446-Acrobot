@@ -5,7 +5,7 @@ disp(['- writing ' name ext]);
 
 % open file and write first line
 
-fid = fopen(fcn_name,'w');
+fid = fopen(strcat(pwd,'\fcns\',fcn_name),'w');
 fprintf(fid,'function [');
 
 for item = 1:1:size(list,1)
@@ -53,6 +53,7 @@ for item = 1:1:size(list,1)
   fprintf(fid,'\n%s',' ');
 end
 status = fclose(fid);
+
 %disp(' - done');
 
 %=============================================

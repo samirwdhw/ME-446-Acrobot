@@ -18,7 +18,7 @@ M2 = 1;
 Mm = 0.5;
 
 % Ball Mass
-Mb = 0.1;
+Mb = 0.2;
 
 % Center of masses
 rx1 = -M1*L1/2/(M1 + Mm);
