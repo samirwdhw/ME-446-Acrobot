@@ -57,7 +57,7 @@ for i = 1:nt
     drawnow
     
     % Deciding end of animation
-    if pos(2)+0.1 <= -1
+    if pos(1) >= xb - 0.1
         break
     end
 end
