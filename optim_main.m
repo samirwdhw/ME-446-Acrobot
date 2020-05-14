@@ -23,7 +23,7 @@ xf = get_final_state(p,xb,yb);
 nX = 4;
 nU = 1;
 N = 50;
-tf = 2;
+tf = 3;
 dt = tf/N;
 t_opt = linspace(0,tf,N+1);
 
