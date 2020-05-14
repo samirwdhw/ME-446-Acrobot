@@ -30,7 +30,7 @@ tfinal = t_opt(end)+10;
 % Simualtion step size 
 % ode45 still uses a variable time solver but this ensures it returns the 
 % values at the required times
-dt = 0.05;
+dt = 0.01;
 tout = tstart;
 
 % The simulation also determines the energy consumed by the robot,
@@ -69,7 +69,7 @@ disp('Ball Simulation Complete!');
 
 %% Visualing the motion
 animateRobot(tout,Xout,ball_t, ball_X, xb, yb, p, t_opt);
-
+    
 %% Comparing Calculated and Actual Parameters
 
 index_throw = find(tout == t_opt(end));
