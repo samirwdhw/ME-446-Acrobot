@@ -13,8 +13,8 @@ x0 = [-pi/2;0;0;0];
 u0 = 0;
 
 % Bucket Location
-xb = 2.0;
-yb = -1;
+xb = 1.;
+yb = 0.;
 
 % Final State for initial guess
 xf = get_final_state(p,xb,yb);
@@ -74,10 +74,10 @@ options = optimoptions('fmincon',...
 
 fprintf('Starting Optimization to generate a good initial guess........\n');
 
-sol0 = fmincon(@(x)fcn_cost(x,N,dt), sol0, A, b,Aeq,beq,...
+sol0 = fmincon(@(x)fcn_cost(x,N,dt), sol0, [], [],Aeq,beq,...
 [],[],@(x)dyn_constraint(x,p,nVar, N,dt, xb, yb),options);
 
-fprintf('Starting Optimization with actuator dynam
+fprintf('Starting Optimization with actuator dynamics........... \n');
 
 sol = fmincon(@(x)fcn_cost(x,N,dt), sol0, A, b,Aeq,beq,...
 [],[],@(x)dyn_constraint(x,p,nVar, N,dt, xb, yb),options);

@@ -68,7 +68,7 @@ for i = 1:length(ball_teven)
     
     drawnow
     
-    if pos(2)+0.1 <= yb
+    if pos(1)-0.1 >= xb
         break
     end
 end

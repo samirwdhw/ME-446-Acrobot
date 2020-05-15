@@ -13,7 +13,7 @@ x0 = [-pi/2;0;0;0];
 u0 = 0;
 
 % Bucket Location
-xb = 1.25;
+xb = 1.5;
 yb = 0.25;
 
 % Final State for initial guess
