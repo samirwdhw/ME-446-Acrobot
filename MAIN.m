@@ -30,7 +30,7 @@ tfinal = t_opt(end)+10;
 % Simualtion step size 
 % ode45 still uses a variable time solver but this ensures it returns the 
 % values at the required times
-dt = 0.01;
+dt = 0.05;
 tout = tstart;
 
 % The simulation also determines the energy consumed by the robot,
