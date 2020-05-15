@@ -13,8 +13,8 @@ x0 = [-pi/2;0;0;0];
 u0 = 0;
 
 % Bucket Location
-xb = 2.0;
-yb = -1;
+xb = 1.25;
+yb = 0.0;
 
 % Final State for initial guess
 xf = get_final_state(p,xb,yb);
