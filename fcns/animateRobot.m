@@ -10,13 +10,13 @@ index_throw = find(tin == t_opt(end));
 ball_t = [tin(1:index_throw-1); ball_t];
 ball_X = [zeros(index_throw-1,4); ball_X];
 
-ball_radius = 0.1*[2 2];
+ball_radius = 0.1*[2.426 2.426];
 
 t = tin; X = Xin;
 
 nt = length(t);
 
-pgon = polyshape([xb-0.15 xb+0.15 xb+0.1 xb-0.1], [yb yb yb-.3 yb-.3]);
+pgon = polyshape([xb-0.46/2 xb+0.46/2 xb+0.1 xb-0.1], [yb yb yb-.3 yb-.3]);
 
 for i = 1:nt
     
@@ -57,7 +57,7 @@ for i = 1:nt
     drawnow
     
     % Deciding end of animation
-    if pos(2)+0.07 <= yb
+    if pos(1) > xb-0.2
         break
     end
 end
