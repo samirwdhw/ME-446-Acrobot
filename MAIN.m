@@ -74,20 +74,23 @@ animateRobot(tout,Xout,ball_t, ball_X, xb, yb, p, t_opt);
 
 index_throw = find(tout == t_opt(end));
 
-figure 
+subplot(2,1,1);
 plot(t_opt, u_opt); hold on;
 plot(tout(1:index_throw), u(1:index_throw));
 title('Control Comparison');
+legend('Optim. Traj.', 'Simulation', 'Location', 'north');
 
-figure 
+subplot(2,2,3);
 plot(t_opt, x_opt(:,1)); hold on;
 plot(tout(1:index_throw), Xout(1:index_throw,1));
 title('\theta_1 Comparison');
+legend('Optim. Traj.', 'Simulation', 'Location', 'southwest');
 
-figure
+subplot(2,2,4);
 plot(t_opt, x_opt(:,2)); hold on;
 plot(tout(1:index_throw), Xout(1:index_throw,2));
 title('\theta_2 Comparison');
+legend('Optim. Traj.', 'Simulation', 'Location', 'best');
 
 plotControlTrajectory(Xout(1:index_throw, :), u(1:index_throw), p);
 

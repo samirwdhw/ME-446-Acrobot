@@ -122,7 +122,7 @@ xlabel('Time (s)');
 ylabel('Error');
 subplot(2,2,4);
 plot(t_sample, error(4,:));
-title('\omega_1 dynamics error');
+title('\omega_2 dynamics error');
 xlabel('Time (s)');
 ylabel('Error');
 

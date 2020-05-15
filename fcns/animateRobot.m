@@ -10,7 +10,7 @@ index_throw = find(tin == t_opt(end));
 ball_t = [tin(1:index_throw-1); ball_t];
 ball_X = [zeros(index_throw-1,4); ball_X];
 
-ball_radius = 0.1*[1 1];
+ball_radius = 0.1*[2 2];
 
 t = tin; X = Xin;
 
@@ -57,7 +57,7 @@ for i = 1:nt
     drawnow
     
     % Deciding end of animation
-    if pos(2)+0.1 <= -1
+    if pos(2)+0.07 <= yb
         break
     end
 end
