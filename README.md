@@ -14,6 +14,8 @@ The procedure to run the code is,
 	c. Plots of tracking of the real system
 	d. Outputs the energy and power consumed during the maneuver
 
+The results, inferences and methodology are explained in "Project Report.pdf"
+
 The edited code for all the cases (in individual branches) mentioned in the report can be found on,
 https://github.com/samirwdhw/ME-446-Acrobot
 
