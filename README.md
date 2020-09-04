@@ -15,7 +15,7 @@ The procedure to run the code is,
 	d. Outputs the energy and power consumed during the maneuver
 
 The edited code for all the cases (in individual branches) mentioned in the report can be found on,
-https://github.com/samirwdhw/ME-446-Milestone5
+https://github.com/samirwdhw/ME-446-Acrobot
 
 THANK YOU!
 
